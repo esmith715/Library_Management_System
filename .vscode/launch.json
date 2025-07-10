@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "lldb",
+      "request": "launch",
+      "args": [],
+      "cwd": "/Users/evansmith/Documents/GitHub/Library_Management_System/L_M_S",
+      "program": "/Users/evansmith/Documents/GitHub/Library_Management_System/L_M_S/build/Debug/outDebug"
+    }
+  ]
+}
