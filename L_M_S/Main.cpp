@@ -77,14 +77,14 @@ void listTransactions(const Library& library) {
 
 void borrowBook(Library& library) {
     int userId, bookId;
-    cout << "Enter your user ID: ";
+    cout << "Enter your user ID (number): ";
     if (!(cin >> userId)) {
         cout << "Invalid input for user ID. Operation cancelled.\n";
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
         return;
     }
-    cout << "Enter book ID to borrow: ";
+    cout << "Enter book ID to borrow (number): ";
     if (!(cin >> bookId)) {
         cout << "Invalid input for book ID. Operation cancelled.\n";
         cin.clear();
@@ -118,7 +118,7 @@ void borrowBook(Library& library) {
 
     // Get date (simple version)
     string date;
-    cout << "Enter borrow date (YYYY-MM-DD): ";
+    cout << "Enter borrow date (format: YYYY-MM-DD): ";
     getline(cin, date);
 
     // Add transaction
@@ -126,8 +126,70 @@ void borrowBook(Library& library) {
     cout << "Book borrowed successfully.\n";
 }
 
-
 /////////////////////////////////////////////////////////////////////////
+
+void addBook(Library& library) {
+    int id;
+    string title, author;
+
+    cout << "Enter new book ID (number): ";
+    if (!(cin >> id)) {
+        cout << "Invalid input for book ID. Operation cancelled.\n";
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        return;
+    }
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    cout << "Enter book title (text): ";
+    getline(cin, title);
+
+    cout << "Enter book author (text): ";
+    getline(cin, author);
+
+    library.addBook(Book(id, title, author));
+    cout << "Book added successfully.\n";
+}
+
+///////////////////////////////////////////////////////////////////////////
+
+void addUser(Library& library) {
+    int id;
+    string name;
+    int typeChoice;
+
+    cout << "Enter new user ID (number): ";
+    if (!(cin >> id)) {
+        cout << "Invalid input for user ID. Operation cancelled.\n";
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        return;
+    }
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    cout << "Enter user name (text): ";
+    getline(cin, name);
+
+    cout << "Select user type (1 = Regular, 2 = Admin): ";
+    if (!(cin >> typeChoice)) {
+        cout << "Invalid input for user type. Operation cancelled.\n";
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        return;
+    }
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    if (typeChoice == 2) {
+        library.addUser(AdminUser(id, name));
+        cout << "Admin user added successfully.\n";
+    } else {
+        library.addUser(User(id, name));
+        cout << "Regular user added successfully.\n";
+    }
+
+}
+
+/////////////////////////////////////////////////////////////////////////////
 
 int main() {
     cout << "Library Management System Base Initialized." << endl;
@@ -155,7 +217,7 @@ int main() {
             string code;
             cout << "Enter admin code: ";
             getline(cin, code);
-            if (code == "admin123") { // Example admin code
+            if (code == "adminbob") { // Example admin code
                 isAdmin = true;
                 cout << "Logged in as Admin.\n";
                 break;
@@ -191,13 +253,13 @@ int main() {
                 break;
             case 5:
                 if (isAdmin)
-                    cout << "[Add Book] (Not implemented)\n";
+                    addBook(library);
                 else
                     cout << "Invalid option.\n";
                 break;
             case 6:
                 if (isAdmin)
-                    cout << "[Add User] (Not implemented)\n";
+                    addUser(library);
                 else
                     cout << "Invalid option.\n";
                 break;
