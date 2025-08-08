@@ -16,5 +16,6 @@ public:
     void addTransaction(const BorrowTransaction& transaction);
     const vector<Book>& getBooks() const;
     const vector<User>& getUsers() const;
+    const vector<BorrowTransaction>& getTransactions() const;
     // Additional methods can be added here
 };

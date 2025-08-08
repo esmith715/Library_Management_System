@@ -9,4 +9,6 @@ const vector<Book>& Library::getBooks() const {
 const vector<User>& Library::getUsers() const {
     return users;
 }
-
+const vector<BorrowTransaction>& Library::getTransactions() const{
+    return transactions;
+}
