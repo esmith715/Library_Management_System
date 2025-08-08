@@ -21,8 +21,36 @@ void showMenu(bool isAdmin) {
     cout << "Select an option: ";
 }
 
+////////////////////////////////////////////////////////////////
+
+void listBooks(const Library& library) {
+    const auto& books = library.getBooks();
+    if (books.empty()) {
+        cout << "No books in the library.\n";
+        return;
+    }
+    cout << "\n--- Book List ---\n";
+    for (const auto& book : books) {
+        cout << "ID: " << book.getId()
+             << ", Title: " << book.getTitle()
+             << ", Author: " << book.getAuthor()
+             << ", Available: " << (book.available() ? "Yes" : "No") << endl;
+    }
+}
+
+
+////////////////////////////////////////////////////////////////////////////
+
 int main() {
     cout << "Library Management System Base Initialized." << endl;
+
+    Library library;
+
+    // Example books and users
+    library.addBook(Book(1, "1984", "George Orwell"));
+    library.addBook(Book(2, "To Kill a Mockingbird", "Harper Lee"));
+    library.addUser(User(1, "Alice"));
+    library.addUser(AdminUser(2, "Bob"));
 
     // --- User role selection ---
     User* currentUser = nullptr;
@@ -62,7 +90,7 @@ int main() {
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
         switch (choice) {
             case 1:
-                cout << "[List Books] (Not implemented)\n";
+                listBooks(library);
                 break;
             case 2:
                 cout << "[List Users] (Not implemented)\n";
