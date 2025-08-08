@@ -41,6 +41,23 @@ void listBooks(const Library& library) {
 
 ////////////////////////////////////////////////////////////////////////////
 
+void listUsers(const Library& library) {
+    const auto& users = library.getUsers();
+    if (users.empty()) {
+        cout << "No users in the library.\n";
+        return;
+    }
+    cout << "\n--- User List ---\n";
+    for (const auto& user : users) {
+        cout << "ID: " << user.getId()
+             << ", Name: " << user.getName()
+             << ", Type: " << (user.isAdmin() ? "Admin" : "Regular") << endl;
+    }
+}
+
+
+//////////////////////////////////////////////////////////////////////////////
+
 int main() {
     cout << "Library Management System Base Initialized." << endl;
 
@@ -93,7 +110,7 @@ int main() {
                 listBooks(library);
                 break;
             case 2:
-                cout << "[List Users] (Not implemented)\n";
+                listUsers(library);
                 break;
             case 3:
                 cout << "[List Transactions] (Not implemented)\n";

@@ -6,3 +6,7 @@ void Library::addTransaction(const BorrowTransaction& transaction) { transaction
 const vector<Book>& Library::getBooks() const {
     return books;
 }
+const vector<User>& Library::getUsers() const {
+    return users;
+}
+
