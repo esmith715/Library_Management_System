@@ -74,6 +74,61 @@ void listTransactions(const Library& library) {
 
 //////////////////////////////////////////////////////////////////////////////
 
+
+void borrowBook(Library& library) {
+    int userId, bookId;
+    cout << "Enter your user ID: ";
+    if (!(cin >> userId)) {
+        cout << "Invalid input for user ID. Operation cancelled.\n";
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        return;
+    }
+    cout << "Enter book ID to borrow: ";
+    if (!(cin >> bookId)) {
+        cout << "Invalid input for book ID. Operation cancelled.\n";
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        return;
+    }
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    // Find user
+    const auto& users = library.getUsers();
+    auto userIt = std::find_if(users.begin(), users.end(), [userId](const User& u) { return u.getId() == userId; });
+    if (userIt == users.end()) {
+        cout << "User not found.\n";
+        return;
+    }
+
+    // Find book
+    auto& books = const_cast<vector<Book>&>(library.getBooks());
+    auto bookIt = std::find_if(books.begin(), books.end(), [bookId](const Book& b) { return b.getId() == bookId; });
+    if (bookIt == books.end()) {
+        cout << "Book not found.\n";
+        return;
+    }
+    if (!bookIt->available()) {
+        cout << "Book is already borrowed.\n";
+        return;
+    }
+
+    // Mark book as borrowed
+    bookIt->setAvailable(false);
+
+    // Get date (simple version)
+    string date;
+    cout << "Enter borrow date (YYYY-MM-DD): ";
+    getline(cin, date);
+
+    // Add transaction
+    library.addTransaction(BorrowTransaction(userId, bookId, date));
+    cout << "Book borrowed successfully.\n";
+}
+
+
+/////////////////////////////////////////////////////////////////////////
+
 int main() {
     cout << "Library Management System Base Initialized." << endl;
 
@@ -132,7 +187,7 @@ int main() {
                 listTransactions(library);
                 break;
             case 4:
-                cout << "[Borrow Book] (Not implemented)\n";
+                borrowBook(library);
                 break;
             case 5:
                 if (isAdmin)
